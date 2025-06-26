@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Exercise Plan</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+        :root {
+            --background-color: #f0f2f5;
+            --card-background: #ffffff;
+            --primary-text: #1c1e21;
+            --secondary-text: #606770;
+            --accent-color: #007bff;
+            --border-color: #e0e0e0;
+        }
+
+        /* Basic reset and full-page setup */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column; /* Arrange children (header, main, footer) vertically */
+            background-color: var(--background-color);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden; /* Prevent body from scrolling */
+        }
+
+        header {
+            padding: 24px 20px 10px 20px;
+            flex-shrink: 0; /* Header should not shrink */
+        }
+        
+        header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-text);
+            margin: 0;
+        }
+
+        /* This is the main container for the swipeable cards */
+        .carousel-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory; /* Enables smooth snapping to the next card */
+            -ms-overflow-style: none; /* Hides scrollbar on IE and Edge */
+            scrollbar-width: none; /* Hides scrollbar on Firefox */
+            flex-grow: 1; /* This makes the carousel take up all available vertical space */
+        }
+
+        .carousel-container::-webkit-scrollbar {
+            display: none; /* Hides scrollbar on Chrome, Safari, and Opera */
+        }
+
+        /* Each individual workout plan card */
+        .workout-card {
+            flex: 0 0 100%;
+            scroll-snap-align: start; /* Aligns the card to the start of the container on snap */
+            padding: 0 20px;
+            box-sizing: border-box;
+            overflow-y: auto; /* Allows scrolling within a card if content is long */
+        }
+
+        .card-title {
+            color: var(--primary-text);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .card-subtitle {
+            color: var(--secondary-text);
+            font-size: 1rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Styling for each exercise list item */
+        .exercise-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--card-background);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        .exercise-group {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .exercise-details .name {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary-text);
+            margin: 2px 0;
+        }
+
+        .exercise-details .reps {
+            font-size: 0.9rem;
+            color: var(--secondary-text);
+        }
+
+        /* Navigation dots at the bottom */
+        .nav-dots {
+            display: flex;
+            justify-content: center;
+            padding: 20px 0; /* Increased padding for easier tapping */
+            flex-shrink: 0; /* Footer should not shrink */
+        }
+
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: #ccc;
+            border-radius: 50%;
+            display: inline-block;
+            margin: 0 5px;
+            transition: background-color 0.3s ease, width 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: var(--accent-color);
+            width: 20px; /* Make the active dot a bit wider */
+        }
+
+    </style>
+</head>
+<body>
+    
+    <header>
+        <h1>Workout Plan</h1>
+    </header>
+    
+    <main class="carousel-container" id="carousel">
+
+        <!-- Variation 1 Card: Bodyweight -->
+        <section class="workout-card" data-index="0">
+            <h2 class="card-title">Variation 1</h2>
+            <h3 class="card-subtitle">Bodyweight</h3>
+            <div class="exercise-list">
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Lower Body</div>
+                        <div class="exercise-details">
+                            <p class="name">Bodyweight Squats</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Push (Chest)</div>
+                        <div class="exercise-details">
+                            <p class="name">Pushups (on table)</p>
+                            <p class="reps">3 sets of 10 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Hinge/Glutes</div>
+                        <div class="exercise-details">
+                            <p class="name">Glute Bridges</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Back/Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Bird-Dog</p>
+                            <p class="reps">3 sets of 10 reps per side</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Shoulder Rehab</div>
+                        <div class="exercise-details">
+                            <p class="name">Wall Angels</p>
+                            <p class="reps">3 sets of 10 reps</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Arms</div>
+                        <div class="exercise-details">
+                            <p class="name">Bicep Curls (grocery bag)</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Grip & Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Grocery Bag Carries</p>
+                            <p class="reps">2 sets of 30 seconds</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Variation 2 Card: Resistance Band -->
+        <section class="workout-card" data-index="1">
+            <h2 class="card-title">Variation 2</h2>
+            <h3 class="card-subtitle">Resistance Band</h3>
+            <div class="exercise-list">
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Lower Body</div>
+                        <div class="exercise-details">
+                            <p class="name">Banded Squats</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Push (Chest)</div>
+                        <div class="exercise-details">
+                            <p class="name">Banded Chest Press</p>
+                            <p class="reps">3 sets of 10 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Hinge/Glutes</div>
+                        <div class="exercise-details">
+                            <p class="name">Banded Glute Bridges</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Back/Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Banded Rows</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Shoulder Rehab</div>
+                        <div class="exercise-details">
+                            <p class="name">Band Pull-Aparts</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Arms</div>
+                        <div class="exercise-details">
+                            <p class="name">Banded Bicep Curls</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Grip & Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Towel Squeezes</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Variation 3 Card: Theraband & Mobility -->
+        <section class="workout-card" data-index="2">
+            <h2 class="card-title">Variation 3</h2>
+            <h3 class="card-subtitle">Theraband & Mobility Focus</h3>
+             <div class="exercise-list">
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Lower Body</div>
+                        <div class="exercise-details">
+                            <p class="name">Theraband-Assisted Hip Hinges</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Push (Chest)</div>
+                        <div class="exercise-details">
+                            <p class="name">Wall Pushups + Shoulder Circles</p>
+                            <p class="reps">3 sets of 8 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Hinge/Glutes</div>
+                        <div class="exercise-details">
+                            <p class="name">Standing Hip Extensions</p>
+                            <p class="reps">3 sets of 10 reps per leg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Back/Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Theraband Pull-Aparts</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Shoulder Rehab</div>
+                        <div class="exercise-details">
+                            <p class="name">Theraband External Rotations</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Arms</div>
+                        <div class="exercise-details">
+                            <p class="name">Theraband Wrist Rolls</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Grip & Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Theraband Finger Extensions</p>
+                            <p class="reps">3 sets of 15 reps</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Variation 4 Card: Strength & Grip -->
+        <section class="workout-card" data-index="3">
+            <h2 class="card-title">Variation 4</h2>
+            <h3 class="card-subtitle">Strength + Grip Focus</h3>
+             <div class="exercise-list">
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Lower Body</div>
+                        <div class="exercise-details">
+                            <p class="name">Banded Split Squats</p>
+                            <p class="reps">3 sets of 10 reps per leg</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Push (Chest)</div>
+                        <div class="exercise-details">
+                            <p class="name">Pushups (knees or full)</p>
+                            <p class="reps">3 sets of 10 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Hinge/Glutes</div>
+                        <div class="exercise-details">
+                            <p class="name">Banded Good Mornings</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Back/Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Supermans Side Planks</p>
+                            <p class="reps">3 sets of 30 seconds</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Shoulder Rehab</div>
+                        <div class="exercise-details">
+                            <p class="name">Overhead Banded Press</p>
+                            <p class="reps">3 sets of 10 reps</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Arms</div>
+                        <div class="exercise-details">
+                            <p class="name">Triceps Band Pushdowns</p>
+                            <p class="reps">3 sets of 12 reps</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="exercise-item">
+                    <div>
+                        <div class="exercise-group">Grip & Core</div>
+                        <div class="exercise-details">
+                            <p class="name">Dead Hangs or Banded Carries</p>
+                            <p class="reps">2 sets of 30 seconds</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="nav-dots" id="nav-dots">
+        <span class="dot active" data-index="0"></span>
+        <span class="dot" data-index="1"></span>
+        <span class="dot" data-index="2"></span>
+        <span class="dot" data-index="3"></span>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const carousel = document.getElementById('carousel');
+            const dots = document.querySelectorAll('.dot');
+            const cards = document.querySelectorAll('.workout-card');
+
+            // This function updates the active dot based on which card is visible
+            const updateActiveDot = () => {
+                let mostVisibleCardIndex = 0;
+                let maxVisibility = 0;
+
+                // Find which card is most visible in the viewport
+                cards.forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    const visibleWidth = Math.max(0, Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0));
+                    
+                    if (visibleWidth > maxVisibility) {
+                        maxVisibility = visibleWidth;
+                        mostVisibleCardIndex = index;
+                    }
+                });
+
+                // Update the active class on the dots
+                dots.forEach((dot, index) => {
+                    if (index === mostVisibleCardIndex) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            };
+
+            // Use an Intersection Observer for modern browsers if available for performance,
+            // otherwise, fall back to the scroll event.
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const index = parseInt(entry.target.getAttribute('data-index'), 10);
+                            dots.forEach((dot, dotIndex) => {
+                                dot.classList.toggle('active', dotIndex === index);
+                            });
+                        }
+                    });
+                }, { threshold: 0.5, root: carousel }); // 0.5 means callback fires when 50% of card is visible
+
+                cards.forEach(card => {
+                    observer.observe(card);
+                });
+            } else {
+                // Fallback for older browsers
+                carousel.addEventListener('scroll', updateActiveDot);
+            }
+
+            // Initial call to set the correct dot on page load
+            updateActiveDot();
+        });
+    </script>
+</body>
+</html>
